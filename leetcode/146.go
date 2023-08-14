@@ -52,7 +52,7 @@ type Node struct {
 	Pre  *Node
 }
 
-func Constructor12(capacity int) LRUCache {
+func ConstructorLRU(capacity int) LRUCache {
 	l := LRUCache{
 		cap:  capacity,
 		size: 0,
