@@ -18,6 +18,8 @@ package leetcode
 
 // 需要淘汰数据时，淘汰缓存队列中排在末尾的数据，即：淘汰“倒数第 K 次访问离现在最久”的数据。
 
+// 参考文档 : https://juejin.cn/post/6844904049263771662
+
 type LRUKCache struct {
 	k           int
 	historyList LRUCacheNew
