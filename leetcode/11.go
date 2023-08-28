@@ -1,5 +1,7 @@
 package leetcode
 
+import "golang.org/x/sync/singleflight"
+
 // https://leetcode.cn/problems/container-with-most-water/
 
 // 11. 盛最多水的容器
@@ -26,6 +28,8 @@ package leetcode
 // n == height.length
 // 2 <= n <= 105
 // 0 <= height[i] <= 104
+
+var sf singleflight.Group
 
 func maxArea(height []int) int {
 	// 双指针 遍历移动最短的那个
