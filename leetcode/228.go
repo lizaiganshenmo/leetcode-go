@@ -1,6 +1,8 @@
 package leetcode
 
-import "strconv"
+import (
+	"strconv"
+)
 
 // https://leetcode.cn/problems/summary-ranges/description/?envType=study-plan-v2&envId=top-interview-150
 

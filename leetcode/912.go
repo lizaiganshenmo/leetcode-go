@@ -65,29 +65,35 @@ func quickSort(nums []int, left, right int) {
 // heapSort
 func heapSort(nums []int) {
 	// 建堆
-	// idx节点的根（父)节点 (idx-1)/2
 	n := len(nums)
+	// for i := (n - 1) / 2; i >= 0; i-- {
+	// 	heapify(nums, n, i)
+	// }
+
+	// // 排序
+	// for n > 0 {
+	// 	nums[n-1], nums[0] = nums[0], nums[n-1]
+	// 	n--
+	// 	heapify(nums, n, 0)
+	// }
+
+	// 小根堆 自顶向下
 	for i := (n - 1) / 2; i >= 0; i-- {
-		heapfy(nums, i, n)
+		heapify2(nums, n, i)
 	}
 
 	// 排序
 	for n > 0 {
 		nums[n-1], nums[0] = nums[0], nums[n-1]
 		n--
-		heapfy(nums, 0, n)
-
+		heapify2(nums, n, 0)
 	}
 
 }
 
-// 切片 ,当前处理下标, 当前堆大小  大根堆维护
-func heapfy(nums []int, idx, n int) {
+func heapify(nums []int, n, idx int) {
 	lagest := idx
-	// idx节点的根（父)节点 (idx-1)/2
-	left := 2*idx + 1  //左子节点
-	right := 2*idx + 2 // 右子节点
-
+	left, right := 2*idx+1, 2*idx+2
 	if left < n && nums[lagest] < nums[left] {
 		lagest = left
 	}
@@ -95,10 +101,24 @@ func heapfy(nums []int, idx, n int) {
 		lagest = right
 	}
 
-	// 当前根节点需要更改，则 更改后的子节点同样需要维护性质
 	if lagest != idx {
 		nums[lagest], nums[idx] = nums[idx], nums[lagest]
-		heapfy(nums, lagest, n)
+		heapify(nums, n, lagest)
+	}
+}
+
+func heapify2(nums []int, n, idx int) {
+	smallest := idx
+	left, right := 2*idx+1, 2*idx+2
+	if left < n && nums[smallest] > nums[left] {
+		smallest = left
+	}
+	if right < n && nums[smallest] > nums[right] {
+		smallest = right
 	}
 
+	if smallest != idx {
+		nums[smallest], nums[idx] = nums[idx], nums[smallest]
+		heapify(nums, n, smallest)
+	}
 }
