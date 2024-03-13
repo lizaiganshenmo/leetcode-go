@@ -1,7 +1,7 @@
 package leetcode
 
 import (
-	"sort"
+	"container/heap"
 )
 
 // https://leetcode.cn/problems/find-the-k-sum-of-an-array/description/?envType=study-plan-v2&envId=huawei-2023-spring-sprint
@@ -31,12 +31,14 @@ import (
 // 输出：10
 // 解释：数组的第 16 大和是 10 。
 
-func kSum(nums []int, k int) int64 {
+func KSum1(nums []int, k int) int64 {
 	// 思路: dfs获取所有可能的子序列和
 	n := len(nums)
 	// ziNums := []int{0}
 	// todo 此题没有完全过， 34/111 内存爆了  ziNums 应当是个容量为k的优先队列
-	ziNums := make([]int, 1, 2<<(n-1))
+	pq := make(PriorityQueue1, 0)
+	heap.Init(&pq)
+	// ziNums := make([]int, 1, 2<<(n-1))
 	var dfs func(int) //入参: 下标
 	sum := 0
 	dfs = func(i int) {
@@ -47,7 +49,12 @@ func kSum(nums []int, k int) int64 {
 		// 选择 nums[i]
 		sum += nums[i]
 		// fmt.Printf("sum is : %d\n", sum)
-		ziNums = append(ziNums, sum)
+		t := &Item1{
+			Value:    int64(sum),
+			Priority: int64(sum),
+		}
+		heap.Push(&pq, t)
+		// ziNums = append(ziNums, sum)
 		dfs(i + 1)
 
 		// 不选
@@ -59,9 +66,92 @@ func kSum(nums []int, k int) int64 {
 	dfs(0)
 
 	// 排序
-	sort.Slice(ziNums, func(i, j int) bool {
-		return ziNums[i] > ziNums[j]
-	})
-	return int64(ziNums[k-1])
+	// sort.Slice(ziNums, func(i, j int) bool {
+	// 	return ziNums[i] > ziNums[j]
+	// })
+	var ans *Item1
+	for k > 0 {
+		t := heap.Pop(&pq)
+		// if t == nil {
+		// 	return -1
+		// }
+
+		ans = t.(*Item1)
+		k--
+	}
+	return ans.Value
 
 }
+
+type Item1 struct {
+	Value int64
+	// Index    int
+	Priority int64
+}
+type PriorityQueue1 []*Item1
+
+func (pq *PriorityQueue1) Len() int {
+	return len(*pq)
+}
+
+func (pq *PriorityQueue1) Less(i, j int) bool {
+	return (*pq)[i].Priority > (*pq)[j].Priority
+}
+
+func (pq *PriorityQueue1) Swap(i, j int) {
+	(*pq)[i], (*pq)[j] = (*pq)[j], (*pq)[i]
+	// pq[i].Index = j
+	// pq[j].Index = i
+}
+
+func (pq *PriorityQueue1) Push(x any) {
+	item := x.(*Item1)
+	// item.Index = pq.Len()
+	*pq = (append(*pq, item))
+}
+
+func (pq *PriorityQueue1) Pop() any {
+	n := pq.Len()
+	if n == 0 {
+		return &Item1{}
+	}
+	item := (*pq)[n-1]
+	(*pq) = (*pq)[0 : n-1]
+
+	return item
+}
+
+// type Item1 struct {
+// 	value    int64 // 值
+// 	priority int64 // 优先级
+// }
+
+// // PriorityQueue implements a priority queue based on a min heap.
+// type PriorityQueue1 []*Item1
+
+// // Len returns the length of the priority queue.
+// func (pq PriorityQueue1) Len() int { return len(pq) }
+
+// // Less compares two items based on their priorities.
+// func (pq PriorityQueue1) Less(i, j int) bool {
+// 	return pq[i].priority < pq[j].priority
+// }
+
+// // Swap swaps two items in the priority queue.
+// func (pq PriorityQueue1) Swap(i, j int) {
+// 	pq[i], pq[j] = pq[j], pq[i]
+// }
+
+// // Push adds an item to the priority queue.
+// func (pq *PriorityQueue1) Push(x interface{}) {
+// 	item := x.(*Item1)
+// 	*pq = append(*pq, item)
+// }
+
+// func (pq *PriorityQueue1) Pop() interface{} {
+// 	old := *pq
+// 	n := len(old)
+// 	item := old[n-1]
+// 	*pq = old[0 : n-1]
+// 	return item
+// }
