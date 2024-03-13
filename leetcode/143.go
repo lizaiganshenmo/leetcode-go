@@ -34,7 +34,7 @@ func isSameTree1(root1, root2 *TreeNode) bool {
 		return true
 	}
 
-	if root1 == nil || root2 == nil {
+	if root1 == nil {
 		return false
 	}
 

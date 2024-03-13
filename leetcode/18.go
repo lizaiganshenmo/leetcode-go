@@ -57,6 +57,7 @@ func fourSum(nums []int, target int) [][]int {
 
 }
 
+// KSum k 数之和
 func KSum(nums []int, target, k int) [][]int {
 	n := len(nums)
 	var ans [][]int
@@ -66,8 +67,8 @@ func KSum(nums []int, target, k int) [][]int {
 
 	sort.Ints(nums)
 
-	var getSum func([]int, int, int, int, int) // // 数组, target, k, 遍历起点, 当前和
-	path := make([]int, 0, k)                  // 记录当前遍历路径
+	var getSum func([]int, int, int, int) // // 数组, target, k, 遍历起点
+	path := make([]int, 0, k)             // 记录当前遍历路径
 
 	var twoSum func([]int, int, int) // 数组, target, 遍历起点
 	twoSum = func(nums []int, target, start int) {
@@ -103,18 +104,18 @@ func KSum(nums []int, target, k int) [][]int {
 
 	}
 
-	getSum = func(nums []int, target, k, start, sumNow int) {
+	getSum = func(nums []int, target, k, start int) {
 		if k <= 1 {
 			return
 		}
 		if k == 2 {
 			// fmt.Println("target-tmpSum now: ", target-tmpSum)
-			twoSum(nums, target-sumNow, start)
+			twoSum(nums, target, start)
 			return
 		}
 
 		for i := start; i <= n-k; i++ {
-			if nums[i] > 0 && nums[i]+sumNow > target {
+			if nums[i] > 0 && nums[i] > target {
 				// 剪枝
 				break
 			}
@@ -127,7 +128,7 @@ func KSum(nums []int, target, k int) [][]int {
 			oldPath := path
 
 			path = append(path, nums[i])
-			getSum(nums, target, k-1, i+1, sumNow+nums[i])
+			getSum(nums, target-nums[i], k-1, i+1)
 
 			// 复位
 			path = oldPath
@@ -136,7 +137,7 @@ func KSum(nums []int, target, k int) [][]int {
 
 	}
 
-	getSum(nums, target, k, 0, 0)
+	getSum(nums, target, k, 0)
 	return ans
 
 }
