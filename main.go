@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"daily/leetcode"
+	"fmt"
+)
 
 func main() {
 	// nums := [][]int{
@@ -19,26 +22,16 @@ func main() {
 	// dst1 := leetcode.DfsFind(nums, 0, 0, 6, 10)
 	// fmt.Printf("dfs dst is : %d\n", dst1)
 
-	var a []int
-	a = append(a, 1)
-	a = append(a, 2)
-	a = append(a, 3)
-	fmt.Printf("a is : %+v\n", a)
+	digits := []int{2, 8, 3}
+	fmt.Print("Given digits is: ")
+	fmt.Println(digits)
 
-	// var b []int
-	b := make([]int, 2)
-	copy(b, a)
-	fmt.Printf("b : %+v  %d\n", b, len(b))
-
-	original := []int{1, 2, 3}
-
-	// 创建新的空切片
-	copied := make([]int, len(original))
-
-	// 将原始切片内容复制到新的切片中
-	copy(copied, original[1:2])
-
-	fmt.Println("Original slice:", original) // [1 2 3]
-	fmt.Println("Copied slice:", copied)
+	fmt.Println("n = 2338   expected output : 2333   actual output : ", leetcode.GetMaxNumLessN(digits, 2338))
+	fmt.Println("n = 2339   expected output : 2338   actual output : ", leetcode.GetMaxNumLessN(digits, 2339))
+	fmt.Println("n = 2399   expected output : 2388   actual output : ", leetcode.GetMaxNumLessN(digits, 2399))
+	fmt.Println("n = 2381   expected output : 2338   actual output : ", leetcode.GetMaxNumLessN(digits, 2381))
+	fmt.Println("n = 1999   expected output : 888    actual output : ", leetcode.GetMaxNumLessN(digits, 1999))
+	fmt.Println("n = 2221   expected output : 888    actual output : ", leetcode.GetMaxNumLessN(digits, 2221))
+	fmt.Println("n = 2222   expected output : 888    actual output : ", leetcode.GetMaxNumLessN(digits, 2222))
 
 }
