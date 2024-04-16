@@ -1,6 +1,8 @@
 package leetcode
 
-import "sort"
+import (
+	"sort"
+)
 
 // 通用
 // func fourSum(nums []int, target int) [][]int {
